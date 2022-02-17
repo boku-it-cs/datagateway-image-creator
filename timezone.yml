@@ -1,8 +1,8 @@
 ---
 
-- name: Set timezone to Vienna.
+- name: Set timezone to "{{ timezone }}".
   copy:
-    content: '{{ timezone | default("Europe/Vienna") }}'
+    content: '{{ timezone | default("{{ timezone }}") }}'
     dest: /etc/timezone
     owner: root
     group: root
@@ -11,8 +11,8 @@
 - name: Remove existing localtime configuration file
   file: path=/etc/localtime state=absent
 
-- name: Set localtime to Vienna.
-  file: src=/usr/share/zoneinfo/{{ timezone | default("Europe/Vienna") }} dest=/etc/localtime state=link owner=root group=root mode=0644
+- name: Set localtime to "{{ timezone }}".
+  file: src=/usr/share/zoneinfo/{{ timezone | default("{{ timezone }}") }} dest=/etc/localtime state=link owner=root group=root mode=0644
 
 - name: Reconfigure tzdata
   command: dpkg-reconfigure -f noninteractive tzdata
